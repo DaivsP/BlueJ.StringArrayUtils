@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by leon on 1/29/18.
@@ -55,12 +56,12 @@ public class StringArrayUtils {
      * @return an array with identical contents in reverse order
      */ // TODO
     public static String[] reverse(String[] array) {
-        String[] t = new String[array.length];
-        for (int i = 0; i < array.length; i++) {
-            t[i] = "";
-            t[i] += array[array.length - (i + 1)];
+        String[] result = new String[array.length];
+        for (int currentIndex = 0; currentIndex < array.length; currentIndex++) {
+            result[currentIndex] = "";
+            result[currentIndex] += array[array.length - (currentIndex + 1)];
         }
-        return t;
+        return result;
     }
 
     /**
@@ -113,15 +114,27 @@ public class StringArrayUtils {
      * @return array with identical contents excluding values of `value`
      */ // TODO
     public static String[] removeValue(String[] array, String valueToRemove) {
-        return null;
-    }
+        List<String> list = new ArrayList<String>(Arrays.asList(array));
+        list.remove(valueToRemove);
+        array = list.toArray(new String[0]);
+   
+        return array;
+}
 
     /**
      * @param array array of chars
      * @return array of Strings with consecutive duplicates removes
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        return null;
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(array[0]);
+        for (int currentIndex = 1; currentIndex < array.length; currentIndex++){
+            if (!array[currentIndex].equals(array[currentIndex - 1])){
+                list.add(array[currentIndex]);
+            }
+        }
+        String[] resultArray = list.toArray(new String[list.size()]);
+        return resultArray;
     }
 
     /**
@@ -129,7 +142,23 @@ public class StringArrayUtils {
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        return null;
+        int size = 1;
+        for (int currentIndex = 0; currentIndex < array.length -1; currentIndex++){
+            if (array[currentIndex] != array[currentIndex + 1]) size ++;
+        }
+        String[] answer = new String[size];
+        String temp = array[0];
+        int placeHolder = 0;
+        for (int currentIndex = 1; currentIndex < array.length; currentIndex++){
+            if (array[currentIndex] == array[currentIndex - 1]){
+                temp = temp + array[currentIndex];
+            }
+            else {
+                answer[placeHolder++] = temp;
+                temp = array[currentIndex];
+            }
+        }
+        answer[answer.length - 1] = temp;
+        return answer;
     }
-
 }
